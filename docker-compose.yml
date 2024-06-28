@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DATABASE_URL=mysql://yourdbuser:yourdbpassword@db/yourdbname
+      - REDIS_URL=redis://redis:6379/0
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: yourdbname
+      MYSQL_USER: yourdbuser
+      MYSQL_PASSWORD: yourdbpassword
+      MYSQL_ROOT_PASSWORD: yourdbpassword
+    volumes:
+      - mysql_data:/var/lib/mysql/
+
+  redis:
+    image: redis:6
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:

@@ -1,0 +1,5 @@
+MYSQL_DATABASE=yourdbname
+MYSQL_USER=yourdbuser
+MYSQL_PASSWORD=yourdbpassword
+DB_HOST=db
+REDIS_URL=redis://redis:6379/0
