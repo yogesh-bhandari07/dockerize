@@ -79,23 +79,13 @@ WSGI_APPLICATION = "myproject.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "yourdbname",
-        "USER": "yourdbuser",
-        "PASSWORD": "yourdbpassword",
-        "HOST": "db",  # Docker service name
+        "NAME": os.getenv("MYSQL_DATABASE", "myproject"),
+        "USER": os.getenv("MYSQL_USER", "user"),
+        "PASSWORD": os.getenv("MYSQL_PASSWORD", "password"),
+        "HOST": os.getenv("DB_HOST", "db"),  # Docker service name
         "PORT": "3306",
     }
 }
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": os.getenv("MYSQL_DATABASE", "myproject"),
-#         "USER": os.getenv("MYSQL_USER", "user"),
-#         "PASSWORD": os.getenv("MYSQL_PASSWORD", "password"),
-#         "HOST": os.getenv("DB_HOST", "db"),  # Docker service name
-#         "PORT": "3306",
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
