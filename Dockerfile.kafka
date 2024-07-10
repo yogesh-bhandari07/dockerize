@@ -1,0 +1,12 @@
+FROM bitnami/kafka:latest
+
+USER root
+
+# Install netcat-openbsd
+RUN apt-get update && apt-get install -y netcat-openbsd
+
+# Add the Kafka topic creation script
+COPY create_kafka_topic.sh /usr/bin/create_kafka_topic.sh
+RUN chmod +x /usr/bin/create_kafka_topic.sh
+
+USER 1001
