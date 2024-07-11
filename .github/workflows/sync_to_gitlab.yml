@@ -15,8 +15,8 @@ jobs:
 
     - name: Set up Git
       run: |
-        git config --global user.name 'yogesh-bhandari07'
-        git config --global user.email 'yk9927129320@gmail.com'
+        git config --global user.name 'yogesh-webinfomart'
+        git config --global user.email 'yogesh@webinfomart.com'
 
     - name: Push to GitLab
       env:
