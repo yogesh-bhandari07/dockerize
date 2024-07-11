@@ -8,7 +8,7 @@ sync_with_github:
     - apt-get install -y git
     - git remote add github https://github.com/${GITHUB_USERNAME}/${REPO_NAME}.git
     - git fetch --all
-    - git checkout github master  # Switch to the master branch
+    - git checkout github/master  # Switch to the master branch
     - git pull github master  # Pull changes from GitHub
     - git push --mirror github  # Mirror the changes to GitHub
   only:
