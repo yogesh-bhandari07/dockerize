@@ -3,7 +3,7 @@ name: Sync to GitLab
 on:
   push:
     branches:
-      - master  # Ya koi aur branch jo aap sync karna chahte hain
+      - master  # The branch you want to sync
 
 jobs:
   sync:
@@ -13,12 +13,12 @@ jobs:
     - name: Checkout code from GitHub
       uses: actions/checkout@v3
       with:
-        fetch-depth: 0  # Fetch all history so we can pull or rebase from GitLab
+        fetch-depth: 0  # Fetch all history
 
     - name: Set up Git
       run: |
-        git config --global user.name 'yogesh-webinfomart'
-        git config --global user.email 'yogesh@webinfomart.com'
+        git config --global user.name 'your-github-username'
+        git config --global user.email 'your-github-email@example.com'
 
     - name: Add GitLab Remote
       run: |
@@ -30,13 +30,15 @@ jobs:
 
     - name: Merge changes from GitLab
       run: |
-        git merge gitlab/master --no-ff --allow-unrelated-histories || true  # Try to merge or handle conflicts manually
+        git merge gitlab/master --no-ff --allow-unrelated-histories || true  # Merge or handle conflicts
 
     - name: Resolve conflicts
       run: |
-        git add .  # Add all changes
-        git commit -m "Resolved conflicts from GitLab merge" || true  # Commit the resolved conflicts
+        git add .  # Add changes if there are conflicts
+        git commit -m "Resolved conflicts from GitLab merge" || true  # Commit if there were conflicts
 
     - name: Push to GitLab
       run: |
-        git push gitlab master  # Push the local branch to GitLab
+        git push gitlab master  # Push changes to GitLab
+  env:
+    GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}  # Ensure your GitLab token is stored as a secret
