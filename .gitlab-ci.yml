@@ -6,12 +6,15 @@ sync_with_github:
   script:
     - apt-get update -y
     - apt-get install -y git
-    - git remote add github https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${REPO_NAME}.git
-    - git remote -v
+    - git remote add github https://github.com/${GITHUB_USERNAME}/${REPO_NAME}.git
     - git fetch --all
-    - git checkout github/master
-    - git pull github master
-    - git push --mirror github
-    
+    - git checkout master  # Switch to the master branch
+    - git pull github master  # Pull changes from GitHub
+    - git push --mirror github  # Mirror the changes to GitHub
   only:
     - master  # Adjust this to your default branch
+  variables:
+    GIT_SSL_NO_VERIFY: "1"  # Disable SSL verification (if needed)
+  before_script:
+    - git config --global user.name 'yogesh-webinfomart'
+    - git config --global user.email 'yogesh@webinfomart.com'
