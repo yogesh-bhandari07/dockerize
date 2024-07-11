@@ -26,14 +26,15 @@ jobs:
       run: |
         git fetch gitlab
 
-    - name: Merge changes from GitLab
+    - name: Rebase local changes on top of GitLab
       run: |
-        git merge gitlab/master --no-ff --allow-unrelated-histories || true  # Handle conflicts manually
+        git rebase gitlab/master || true  # Try rebase, ignore errors
 
     - name: Resolve conflicts
       run: |
         git add .  # Add all changes
-        git commit -m "Resolved conflicts from GitLab merge" || true  # Commit the resolved conflicts
+        git rebase --continue || true  # Continue rebase or ignore if conflicts
+        git commit -m "Resolved conflicts from GitLab rebase" || true  # Commit the resolved conflicts
 
     - name: Push to GitLab
       run: |
