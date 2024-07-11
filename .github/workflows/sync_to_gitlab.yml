@@ -23,4 +23,4 @@ jobs:
         GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
       run: |
         git remote add gitlab https://gitlab.com/test9793321/django_project.git
-        git push gitlab main
+        git push gitlab master
