@@ -6,7 +6,7 @@ sync_with_github:
   script:
     - apt-get update -y
     - apt-get install -y git
-    - git remote add github https://<GITHUB_USERNAME>:${GITHUB_TOKEN}@github.com/<GITHUB_USERNAME>/<REPO_NAME>.git
+    - git remote add github https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${REPO_NAME}.git
     - git push --mirror github
   only:
     - master  # Adjust this to your default branch
