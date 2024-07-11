@@ -1,0 +1,44 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - master  # The branch you want to sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code from GitHub
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history
+
+    - name: Set up Git
+      run: |
+        git config --global user.name 'your-github-username'
+        git config --global user.email 'your-github-email@example.com'
+
+    - name: Add GitLab Remote
+      run: |
+        git remote add gitlab https://gitlab-ci-token:${{ secrets.GITLAB_TOKEN }}@gitlab.com/test9793321/django_project.git
+
+    - name: Fetch from GitLab
+      run: |
+        git fetch gitlab
+
+    - name: Merge changes from GitLab
+      run: |
+        git merge gitlab/master --no-ff --allow-unrelated-histories || true  # Merge or handle conflicts
+
+    - name: Resolve conflicts
+      run: |
+        git add .  # Add changes if there are conflicts
+        git commit -m "Resolved conflicts from GitLab merge" || true  # Commit if there were conflicts
+
+    - name: Push to GitLab
+      run: |
+        git push gitlab master  # Push changes to GitLab
+  env:
+    GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}  # Ensure your GitLab token is stored as a secret
