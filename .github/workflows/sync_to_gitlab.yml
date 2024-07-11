@@ -1,0 +1,25 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - master  # Adjust this to your default branch
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Git
+        run: sudo apt-get install -y git
+
+      - name: Mirror to GitLab
+        env:
+          GITLAB_URL: https://gitlab.com
+          GITLAB_REPO: git@gitlab.com:test9793321/django_project.git
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          git remote add gitlab $GITLAB_REPO
+          git push --mirror gitlab
