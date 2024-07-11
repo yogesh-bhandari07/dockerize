@@ -9,6 +9,7 @@ sync_with_github:
     - git remote add github https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${REPO_NAME}.git
     - git remote -v
     - git fetch --all
+    - git checkout master
     - git pull
     - git push --mirror github
     
