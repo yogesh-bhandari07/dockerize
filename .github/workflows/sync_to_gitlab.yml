@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code from GitHub
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history so we can pull or rebase from GitLab
 
     - name: Set up Git
       run: |
@@ -26,16 +28,15 @@ jobs:
       run: |
         git fetch gitlab
 
-    - name: Rebase local changes on top of GitLab
+    - name: Merge changes from GitLab
       run: |
-        git rebase gitlab/master || true  # Try rebase, ignore errors
+        git merge gitlab/master --no-ff --allow-unrelated-histories || true  # Try to merge or handle conflicts manually
 
     - name: Resolve conflicts
       run: |
         git add .  # Add all changes
-        git rebase --continue || true  # Continue rebase or ignore if conflicts
-        git commit -m "Resolved conflicts from GitLab rebase" || true  # Commit the resolved conflicts
+        git commit -m "Resolved conflicts from GitLab merge" || true  # Commit the resolved conflicts
 
     - name: Push to GitLab
       run: |
-        git push gitlab master
+        git push gitlab master  # Push the local branch to GitLab
