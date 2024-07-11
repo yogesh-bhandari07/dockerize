@@ -28,7 +28,7 @@ jobs:
 
     - name: Merge changes from GitLab
       run: |
-        git merge gitlab/master --no-ff  # Use merge instead of rebase
+        git merge gitlab/master --no-ff --allow-unrelated-histories  # Allow merging unrelated histories
 
     - name: Push to GitLab
       run: |
