@@ -28,5 +28,6 @@ jobs:
 
     - name: Push to GitLab
       run: |
+        get remote -v
         git pull
         git push gitlab master
