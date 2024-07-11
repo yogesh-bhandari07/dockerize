@@ -3,31 +3,24 @@ name: Sync to GitLab
 on:
   push:
     branches:
-      - master  
+      - master  # Ya koi aur branch jo aap sync karna chahte hain
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout code from GitHub
+      uses: actions/checkout@v3
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
+    - name: Set up Git
+      run: |
+        git config --global user.name 'yogesh-bhandari07'
+        git config --global user.email 'yk9927129320@gmail.com'
 
-      - name: Debug SSH
-        run: |
-          ssh -T git@gitlab.com
-
-      - name: Mirror to GitLab
-        env:
-          GITLAB_REPO: git@gitlab.com:test9793321/django_project.git
-        run: |
-          git remote add gitlab $GITLAB_REPO
-          git push --mirror gitlab
+    - name: Push to GitLab
+      env:
+        GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+      run: |
+        git remote add gitlab https://gitlab.com/test9793321/django_project.git
+        git push gitlab main
