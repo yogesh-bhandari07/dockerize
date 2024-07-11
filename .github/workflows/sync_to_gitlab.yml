@@ -26,9 +26,9 @@ jobs:
       run: |
         git fetch gitlab
 
-    - name: Rebase local changes on top of GitLab
+    - name: Merge changes from GitLab
       run: |
-        git rebase gitlab/master
+        git merge gitlab/master --no-ff  # Use merge instead of rebase
 
     - name: Push to GitLab
       run: |
