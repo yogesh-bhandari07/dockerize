@@ -10,7 +10,7 @@ sync_with_github:
     - git remote -v
     - git fetch --all
     - git checkout github/master
-    - git pull
+    - git pull github master
     - git push --mirror github
     
   only:
