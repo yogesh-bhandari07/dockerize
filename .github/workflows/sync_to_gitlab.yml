@@ -3,7 +3,7 @@ name: Sync to GitLab
 on:
   push:
     branches:
-      - master  # Adjust this to your default branch
+      - master  
 
 jobs:
   sync:
