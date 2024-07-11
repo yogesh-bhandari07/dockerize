@@ -12,9 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Generate SSH key
+        run: |
+          ssh-keygen -t rsa -b 4096 -C "yogesh@webinfomart.com" -f /home/runner/.ssh/id_rsa -N ""
+          cat /home/runner/.ssh/id_rsa.pub
+
       - name: Setup SSH
         run: |
-          mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
@@ -22,7 +26,7 @@ jobs:
       - name: Mirror to GitLab
         env:
           GITLAB_URL: https://gitlab.com
-          GITLAB_REPO: git@gitlab.com:your-username/your-repo.git
+          GITLAB_REPO: git@gitlab.com:test9793321/django_project.git
         run: |
           git remote add gitlab $GITLAB_REPO
           git push --mirror gitlab
