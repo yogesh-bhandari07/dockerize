@@ -12,21 +12,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Generate SSH key
-        id: generate_ssh
-        run: |
-          ssh-keygen -t rsa -b 4096 -C "yogesh@webinfomart.com" -f /home/runner/.ssh/id_rsa -N ""
-          cat /home/runner/.ssh/id_rsa.pub
-
-      - name: Display SSH Public Key
-        run: cat /home/runner/.ssh/id_rsa.pub
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          chmod 777 ~/.ssh/id_rsa
           ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+          ssh-add ~/.ssh/id_rsa
+
+      - name: Debug SSH
+        run: |
+          ssh -T git@gitlab.com
 
       - name: Mirror to GitLab
         env:
