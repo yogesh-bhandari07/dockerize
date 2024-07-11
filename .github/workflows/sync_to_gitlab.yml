@@ -1,0 +1,42 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - master  # Ya koi aur branch jo aap sync karna chahte hain
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code from GitHub
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history so we can pull or rebase from GitLab
+
+    - name: Set up Git
+      run: |
+        git config --global user.name 'yogesh-webinfomart'
+        git config --global user.email 'yogesh@webinfomart.com'
+
+    - name: Add GitLab Remote
+      run: |
+        git remote add gitlab https://gitlab-ci-token:${{ secrets.GITLAB_TOKEN }}@gitlab.com/test9793321/django_project.git
+
+    - name: Fetch from GitLab
+      run: |
+        git fetch gitlab
+
+    - name: Merge changes from GitLab
+      run: |
+        git merge gitlab/master --no-ff --allow-unrelated-histories || true  # Try to merge or handle conflicts manually
+
+    - name: Resolve conflicts
+      run: |
+        git add .  # Add all changes
+        git commit -m "Resolved conflicts from GitLab merge" || true  # Commit the resolved conflicts
+
+    - name: Push to GitLab
+      run: |
+        git push gitlab master  # Push the local branch to GitLab
