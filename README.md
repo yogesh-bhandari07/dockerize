@@ -83,3 +83,4 @@ For deployment, you can follow similar steps on your server, ensuring that Docke
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
 
 Feel free to modify the sections according to your project's specific requirements and structure.
+Edited
